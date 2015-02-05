@@ -1,0 +1,149 @@
+@import "compass/css3";     // Use one CSS3 mixin instead of multiple vendor prefixes.
+@import "custom";
+@include keyframes(revolve) {
+  0% {
+    @include rotateZ(0deg);
+  }
+  50% {
+    @include rotateZ(180deg);
+  }
+  100% {
+    @include rotateZ(360deg);
+  }
+}
+
+$color1rgb : "238, 0, 238";
+$color2rgb : "0, 254, 254";
+$color1 : rgba(238, 0, 238, 1);
+$color2 : rgba(0, 254, 254, 1);
+$size: 100px;
+$spacing: 2px;
+$timing: 2s;
+
+@include keyframes(slide) {
+  0% {
+    @include transform(translateX(0) scale(1, 1));
+  }
+  25% {
+    @include transform(translateX($size) scale(0.6, 0.6));
+  }
+  50% {
+    @include transform(translateX(0) scale(1, 1));
+  }
+  75% {
+    @include transform(translateX(-$size) scale(0.6, 0.6));
+  }
+  100% {
+    @include transform(translateX(0) scale(1, 1));
+  }
+}
+@include keyframes(rotateWithSlide) {
+  0% {
+    @include rotateZ(0);
+  }
+  25% {
+    @include rotateZ(30deg);
+  }
+  50% {
+    @include rotateZ(0);
+  }
+  75% {
+    @include rotateZ(-30deg);
+  }
+  100% {
+    @include rotateZ(0);
+  }
+}
+@include keyframes(rotateWithSlideb) {
+  0% {
+    @include rotateZ(0);
+  }
+  25% {
+    @include rotateZ(-30deg);
+  }
+  50% {
+    @include rotateZ(0);
+  }
+  75% {
+    @include rotateZ(30deg);
+  }
+  100% {
+    @include rotateZ(0);
+  }
+}
+
+body {
+  background: #000000;
+}
+
+.bauble {
+  position: relative;
+  width: $size;
+  height: $size;
+  @include border-radius(50%);
+  margin: 50px auto;
+  border: $spacing * 2 solid white;
+  border-right-width: $spacing;
+  border-left-width: $spacing * 3;
+  @include animation(slide $timing linear infinite);
+  .ornamental,
+  .core {
+//    @include animation(revolve $timing linear infinite);
+  }
+  .ornamental {
+    content: "";
+    position: absolute;
+    @include border-radius(inherit);
+    border: ($size / 2) - $spacing solid transparent;
+    top: $spacing;
+    right: $spacing;
+    bottom: $spacing;
+    left: $spacing;
+    @include rotateZ(20deg);
+    &:after {
+      content: "";
+      position: absolute;
+      width: 64px;
+      height: 32px;
+      background: black;
+      box-shadow: 0px 0px 2px 1px #000;
+      left: -32px;
+    }
+  }
+  .ornamental-1 {
+    border-top: ($size / 2) - $spacing solid $color1;
+    @include animation(rotateWithSlideb $timing linear infinite);
+    &:after {
+      bottom:0;
+    }
+  }
+  .ornamental-2 {
+    border-bottom: ($size / 2) - $spacing solid $color2;
+    @include animation(rotateWithSlide $timing linear infinite);
+    &:after {
+      top:0;
+    }
+  }
+  .core {
+
+    //    @include rotateZ(45deg);
+  }
+}
+.light {
+  margin: $size auto;
+  width: ($size/2);
+  height: $size/2;
+  &.color-1 {
+    background: $color1;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    @include box-shadow($size/10 $size/4 $size/4 $size/4 rgba($color1, 0.15), -$size/10 $size/4 $size/4 $size/4 rgba($color1, 0.15));
+  }
+  &.color-2 {
+    background: $color2;
+    border-top-right-radius: 100%;
+    border-top-left-radius: 100%;
+    @include box-shadow($size/10 $size/4*(-1) $size/4 $size/4 rgba($color2, 0.15), -$size/10 $size/4*(-1) $size/4 $size/4 rgba($color2, 0.15));
+  }
+}
+
